@@ -1,9 +1,9 @@
 {
   "name": "github-action-json",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Edit or Read the content of any json file or the package.json that you want.",
   "scripts": {
-    "prepare": "husky install && npm run build",
+    "prepare": "husky",
     "build": "ncc build src/index.ts -o lib",
     "watch": "ncc watch src/index.ts -o lib"
   },
@@ -29,13 +29,13 @@
     "configs"
   ],
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "ramda": "^0.28.0"
+    "@actions/core": "^3.0.0",
+    "ramda": "^0.32.0"
   },
   "devDependencies": {
-    "@kkt/ncc": "~1.0.12",
-    "@types/ramda": "^0.28.15",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3"
+    "@kkt/ncc": "^1.1.2",
+    "@types/ramda": "^0.31.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
   }
 }

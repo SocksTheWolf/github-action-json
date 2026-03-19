@@ -36,7 +36,7 @@ Edit or Read the content of any json file or the `package.json` that you want.
     path: "package.json" # default value
     replaceWith: |
       {
-        "engines": { "node": "20" }
+        "engines": { "node": "24" }
         "version": 10
       }
 
