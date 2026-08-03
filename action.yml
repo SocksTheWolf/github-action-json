@@ -1,5 +1,5 @@
-name: 'Edit or Read any JSON'
-author: 'Radovan Pelka & SocksTheWolf'
+name: Read or Modify JSON
+author: "Radovan Pelka & SocksTheWolf"
 description: 'Edit or Read the content of any json file or the package.json that you want.'
 inputs:
   path:
