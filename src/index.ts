@@ -7,7 +7,8 @@ import {
   setOutput,
   startGroup,
 } from "@actions/core";
-import fs from "fs";
+import { existsSync } from "fs";
+import { readFile, writeFile } from "fs/promises";
 import path from "path";
 import { isEmpty, mergeDeepRight } from "ramda";
 import unset from "unset-value";
@@ -37,21 +38,24 @@ const tryParseObject = (
     const dryRun = getBooleanInput("dryRun");
     const resolvePath = path.resolve(process.cwd(), pathInputParam);
 
-    if (!fs.existsSync(resolvePath)) {
+    if (!existsSync(resolvePath)) {
       setFailed(`File \x1b[31;1m${resolvePath}\x1b[0m does not exist!`);
       return;
     }
 
     const packageJsonAsString = await (
-      await fs.promises.readFile(resolvePath)
+      await readFile(resolvePath)
     ).toString();
 
     let packageJson = tryParseObject(packageJsonAsString);
+    let doesNeedFileChanges: boolean = false;
 
     if (!isEmpty(replaceInputParam)) {
       const newPackageValues = tryParseObject(replaceInputParam);
+      // Check to see if we parsed the new json properly
       if (!isEmpty(newPackageValues)) {
         packageJson = mergeDeepRight(packageJson, newPackageValues);
+        doesNeedFileChanges = true;
       }
     }
 
@@ -62,10 +66,11 @@ const tryParseObject = (
           unset(packageJson, trimmedItem);
         endGroup();
       });
+      doesNeedFileChanges = true;
     }
 
-    if (dryRun != true) {
-      await fs.promises.writeFile(
+    if (dryRun != true && doesNeedFileChanges) {
+      await writeFile(
         resolvePath,
         JSON.stringify(packageJson, null, 2)
       );
