@@ -1,17 +1,18 @@
-github-action-json
-===
+# github-action-json
 
 [![CI](https://github.com/RadovanPelka/github-action-json/actions/workflows/ci.yml/badge.svg)](https://github.com/RadovanPelka/github-action-json/actions/workflows/ci.yml)
 
 Edit or Read the content of any json file or the `package.json` that you want.
 
 ## Inputs
-`with:`
+
 - `path` (Optional) The path of the `package.json` file.  Default: `package.json`
 - `replaceWith` (Optional) json data for changing for example the `package.json`.  Default: `{}`. If a key exists in both objects and both values are objects, the two values will be recursively merged otherwise the value from the second object will be used.
-
+- `removeKey` (Optional) a csv list of paths to keys to remove in the json file. This will follow any chains in the json to remove keys.
+- `dryRun` (Optional) if we make any changes to the json, this will not write the changes to the file.
 
 ## Example Usage
+
 `Getter`
 
 ```yaml
