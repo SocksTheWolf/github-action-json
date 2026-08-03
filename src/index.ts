@@ -1,13 +1,14 @@
-import path from "path";
-import fs from "fs";
 import {
-  setFailed,
-  setOutput,
+  endGroup,
+  getBooleanInput,
   getInput,
   info,
+  setFailed,
+  setOutput,
   startGroup,
-  endGroup,
 } from "@actions/core";
+import fs from "fs";
+import path from "path";
 import { isEmpty, mergeDeepRight } from "ramda";
 import unset from "unset-value";
 
@@ -33,6 +34,7 @@ const tryParseObject = (
     const pathInputParam = getInput("path");
     const replaceInputParam = getInput("replaceWith");
     const removeKeysParam = getInput("removeKeys");
+    const dryRun = getBooleanInput("dryRun");
     const resolvePath = path.resolve(process.cwd(), pathInputParam);
 
     if (!fs.existsSync(resolvePath)) {
@@ -62,10 +64,12 @@ const tryParseObject = (
       });
     }
 
-    await fs.promises.writeFile(
-      resolvePath,
-      JSON.stringify(packageJson, null, 2)
-    );
+    if (dryRun != true) {
+      await fs.promises.writeFile(
+        resolvePath,
+        JSON.stringify(packageJson, null, 2)
+      );
+    }
 
     startGroup(`\x1b[32;1m package.json\x1b[0m content: `);
     info(`${JSON.stringify(packageJson, null, 2)}`);

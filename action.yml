@@ -5,6 +5,7 @@ inputs:
   path:
     description: The path of the target json file, for example "package.json".
     default: package.json
+    type: string
     required: false
 
   replaceWith:
@@ -15,6 +16,12 @@ inputs:
     description: A list of keys that you would like to remove from the JSON, these can have depth
     type: string
     required: false
+
+  dryRun:
+    description: If you wanted to see what the output file looks like without actually writing to it, set this to true
+    type: bool
+    required: false
+    default: false
 
 outputs:
   name:
