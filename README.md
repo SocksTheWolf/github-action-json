@@ -1,7 +1,5 @@
 # github-action-json
 
-[![CI](https://github.com/RadovanPelka/github-action-json/actions/workflows/ci.yml/badge.svg)](https://github.com/RadovanPelka/github-action-json/actions/workflows/ci.yml)
-
 Edit or Read the content of any json file or the `package.json` that you want.
 
 ## Inputs
@@ -18,7 +16,7 @@ Edit or Read the content of any json file or the `package.json` that you want.
 ```yaml
 - name: Get values from the package.json
   id: packageJson
-  uses: RadovanPelka/github-action-json@main
+  uses: SocksTheWolf/github-action-json@improve
   with:
     path: "package.json" # default value
 
@@ -32,7 +30,7 @@ Edit or Read the content of any json file or the `package.json` that you want.
 ```yaml
 - name: Set and Get values from the package.json
   id: packageJson
-  uses: RadovanPelka/github-action-json@main
+  uses: SocksTheWolf/github-action-json@improve
   with:
     path: "package.json" # default value
     replaceWith: |
@@ -60,6 +58,10 @@ Example for the `package.json`
 
 - Twitter: [@PelkaRadovan](https://twitter.com/PelkaRadovan)
 - Github: [@RadovanPelka](https://github.com/RadovanPelka)
+
+🐺 **SocksTheWolf**
+
+- Website: [Homepage](https://socksthewolf.com)
 
 ## License
 
