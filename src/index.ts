@@ -9,6 +9,7 @@ import {
   endGroup,
 } from "@actions/core";
 import { isEmpty, mergeDeepRight } from "ramda";
+import unset from "unset-value";
 
 type UnknownObject = Record<string, any>;
 
@@ -31,6 +32,7 @@ const tryParseObject = (
   try {
     const pathInputParam = getInput("path");
     const replaceInputParam = getInput("replaceWith");
+    const removeKeysParam = getInput("removeKeys");
     const resolvePath = path.resolve(process.cwd(), pathInputParam);
 
     if (!fs.existsSync(resolvePath)) {
@@ -44,10 +46,20 @@ const tryParseObject = (
 
     let packageJson = tryParseObject(packageJsonAsString);
 
-    const newPackageValues = tryParseObject(replaceInputParam);
+    if (!isEmpty(replaceInputParam)) {
+      const newPackageValues = tryParseObject(replaceInputParam);
+      if (!isEmpty(newPackageValues)) {
+        packageJson = mergeDeepRight(packageJson, newPackageValues);
+      }
+    }
 
-    if (!isEmpty(newPackageValues)) {
-      packageJson = mergeDeepRight(packageJson, newPackageValues);
+    if (!isEmpty(removeKeysParam)) {
+      removeKeysParam.split(",").forEach((item) => {
+        const trimmedItem = item.trim();
+        startGroup(`\x1b[32;1m removing key\x1b[0m ${trimmedItem}: `);
+          unset(packageJson, trimmedItem);
+        endGroup();
+      });
     }
 
     await fs.promises.writeFile(
@@ -63,7 +75,7 @@ const tryParseObject = (
       const value = packageJson[keyname];
       setOutput(keyname, JSON.stringify(value));
     });
-  } catch (error) {
+  } catch (error: any) {
     setFailed(error.message);
   }
 })();

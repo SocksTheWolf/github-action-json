@@ -1,22 +1,20 @@
 {
   "name": "github-action-json",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Edit or Read the content of any json file or the package.json that you want.",
+  "type": "module",
   "scripts": {
-    "prepare": "husky",
-    "build": "ncc build src/index.ts -o lib",
-    "watch": "ncc watch src/index.ts -o lib"
+    "build": "npx rimraf ./lib && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "watch": "npm run build -- --watch"
   },
-  "author": "RadovanPelka",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "author": "RadovanPelka & SocksTheWolf",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RadovanPelka/github-action-json"
-  },
-  "lint-staged": {
-    "*.ts?(x)": [
-      "npm run build"
-    ]
+    "url": "https://github.com/SocksTheWolf/github-action-json"
   },
   "keywords": [
     "actions",
@@ -30,12 +28,18 @@
   ],
   "dependencies": {
     "@actions/core": "^3.0.0",
-    "ramda": "^0.32.0"
+    "unset-value": "^2.0.1"
   },
   "devDependencies": {
-    "@kkt/ncc": "^1.1.2",
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/node": "^24.13.3",
     "@types/ramda": "^0.31.1",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0"
+    "ramda": "^0.32.0",
+    "rimraf": "^6.1.3",
+    "rollup": "^4.62.4",
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.3"
   }
 }
