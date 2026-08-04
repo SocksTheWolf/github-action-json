@@ -4,6 +4,7 @@
   "description": "Edit or Read the content of any json file or the package.json that you want.",
   "type": "module",
   "scripts": {
+    "bundle": "npm run build",
     "build": "npx rimraf ./lib && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "watch": "npm run build -- --watch"
   },
