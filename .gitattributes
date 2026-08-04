@@ -1,2 +1,1 @@
-dist/** -diff linguist-generated=true
 lib/** -diff linguist-generated=true
