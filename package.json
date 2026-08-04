@@ -1,6 +1,6 @@
 {
   "name": "github-action-json",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Edit or Read the content of any json file or the package.json that you want.",
   "type": "module",
   "scripts": {
