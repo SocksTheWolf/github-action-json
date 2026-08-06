@@ -7,10 +7,12 @@ import {
   setOutput,
   startGroup,
 } from "@actions/core";
-import { existsSync } from "fs";
-import { readFile, writeFile } from "fs/promises";
-import path from "path";
-import { isEmpty, mergeDeepRight } from "ramda";
+import has from "just-has";
+import isEmpty from "just-is-empty";
+import { existsSync } from "node:fs";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { clone, equals, mergeDeepRight } from "ramda";
 import unset from "unset-value";
 
 type UnknownObject = Record<string, any>;
@@ -48,38 +50,53 @@ const tryParseObject = (
     ).toString();
 
     let packageJson = tryParseObject(packageJsonAsString);
+    // if we should write to the file or not
     let doesNeedFileChanges: boolean = false;
 
+    // check to see if we have input to add
     if (!isEmpty(replaceInputParam)) {
       const newPackageValues = tryParseObject(replaceInputParam);
       // Check to see if we parsed the new json properly
       if (!isEmpty(newPackageValues)) {
+        // if we did, create a cloned version of the original package object
+        // so we can check if the merge was successful (we could also do this earlier, but w/e)
+        const clonedJson = clone(packageJson);
         packageJson = mergeDeepRight(packageJson, newPackageValues);
-        doesNeedFileChanges = true;
+
+        // if changes were made, then flag we need to write out the file
+        if (!equals(packageJson, clonedJson))
+          doesNeedFileChanges = true;
       }
     }
 
+    // remove keys from a list
     if (!isEmpty(removeKeysParam)) {
       removeKeysParam.split(",").forEach((item) => {
         const trimmedItem = item.trim();
-        startGroup(`\x1b[32;1m removing key\x1b[0m ${trimmedItem}: `);
+        // only modify the package if we had the path
+        if (has(packageJson, trimmedItem)) {
+          info(`\x1b[32;1m removed key\x1b[0m ${trimmedItem}`);
           unset(packageJson, trimmedItem);
-        endGroup();
+          doesNeedFileChanges = true;
+        }
       });
-      doesNeedFileChanges = true;
     }
 
-    if (dryRun != true && doesNeedFileChanges) {
+    const shouldWriteToFile: boolean = (dryRun != true && doesNeedFileChanges);
+    if (shouldWriteToFile) {
       await writeFile(
         resolvePath,
         JSON.stringify(packageJson, null, 2)
       );
     }
+    info(`Made file changes: ${shouldWriteToFile}`);
 
-    startGroup(`\x1b[32;1m package.json\x1b[0m content: `);
-    info(`${JSON.stringify(packageJson, null, 2)}`);
+    // print out the content of the file for debug
+    startGroup(`\x1b[32;1m ${pathInputParam}\x1b[0m content: `);
+      info(`${JSON.stringify(packageJson, null, 2)}`);
     endGroup();
 
+    // dump the entire object to gh output
     Object.keys(packageJson).forEach((keyname) => {
       const value = packageJson[keyname];
       setOutput(keyname, JSON.stringify(value));

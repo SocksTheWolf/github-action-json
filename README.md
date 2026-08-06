@@ -1,4 +1,4 @@
-# github-action-json
+# Read or Modify JSON Action
 
 Edit or Read the content of any json file or the `package.json` that you want.
 
