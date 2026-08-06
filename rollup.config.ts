@@ -8,7 +8,7 @@ const config = {
   input: 'src/index.ts',
   output: {
     esModule: true,
-    file: 'lib/index.js',
+    file: 'dist/index.js',
     format: 'es',
     sourcemap: true
   },

@@ -13,7 +13,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "rootDir": "./src",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,

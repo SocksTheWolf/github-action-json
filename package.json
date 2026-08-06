@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "bundle": "npm run build",
-    "build": "npx rimraf ./lib && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build": "npx rimraf ./dist && npx rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "watch": "npm run build -- --watch"
   },
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./dist/index.js"
   },
   "author": "RadovanPelka & SocksTheWolf",
   "license": "MIT",
