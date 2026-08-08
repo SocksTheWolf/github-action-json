@@ -46,9 +46,6 @@
     "unset-value": "^2.0.1"
   },
   "overrides": {
-    "wrangler": {
-      "undici": "^7.29.0"
-    },
     "@actions/github": {
       "undici": "^7.29.0"
     },
