@@ -52,6 +52,7 @@ const tryParseObject = (
     let packageJson = tryParseObject(packageJsonAsString);
     // if we should write to the file or not
     let doesNeedFileChanges: boolean = false;
+    const wouldLikeFileChanges: boolean = !isEmpty(replaceInputParam) || !isEmpty(removeKeysParam);
 
     // check to see if we have input to add
     if (!isEmpty(replaceInputParam)) {
@@ -89,7 +90,9 @@ const tryParseObject = (
         JSON.stringify(packageJson, null, 2)
       );
     }
-    info(`Made file changes: ${shouldWriteToFile}`);
+
+    if (wouldLikeFileChanges)
+      info(`Made file changes: ${shouldWriteToFile}`);
 
     // print out the content of the file for debug
     startGroup(`\x1b[32;1m ${pathInputParam}\x1b[0m content: `);

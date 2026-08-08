@@ -39602,6 +39602,7 @@ const tryParseObject = (data, { defaultValue = {} } = {}) => {
         let packageJson = tryParseObject(packageJsonAsString);
         // if we should write to the file or not
         let doesNeedFileChanges = false;
+        const wouldLikeFileChanges = !objectIsEmpty(replaceInputParam) || !objectIsEmpty(removeKeysParam);
         // check to see if we have input to add
         if (!objectIsEmpty(replaceInputParam)) {
             const newPackageValues = tryParseObject(replaceInputParam);
@@ -39632,7 +39633,8 @@ const tryParseObject = (data, { defaultValue = {} } = {}) => {
         if (shouldWriteToFile) {
             await writeFile$1(resolvePath, JSON.stringify(packageJson, null, 2));
         }
-        info(`Made file changes: ${shouldWriteToFile}`);
+        if (wouldLikeFileChanges)
+            info(`Made file changes: ${shouldWriteToFile}`);
         // print out the content of the file for debug
         startGroup(`\x1b[32;1m ${pathInputParam}\x1b[0m content: `);
         info(`${JSON.stringify(packageJson, null, 2)}`);
