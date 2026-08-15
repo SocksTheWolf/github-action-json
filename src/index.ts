@@ -15,7 +15,7 @@ import path from "node:path";
 import { clone, equals, mergeDeepRight } from "ramda";
 import unset from "unset-value";
 
-type UnknownObject = Record<string, any>;
+type UnknownObject = Record<string, unknown>;
 
 type TryParseObjectOptionalProps = { defaultValue?: UnknownObject };
 
@@ -27,7 +27,7 @@ const tryParseObject = (
     const parsed = JSON.parse(data);
 
     return parsed || defaultValue;
-  } catch (error) {
+  } catch (_error) {
     return defaultValue;
   }
 };
@@ -104,7 +104,10 @@ const tryParseObject = (
       const value = packageJson[keyname];
       setOutput(keyname, JSON.stringify(value));
     });
-  } catch (error: any) {
-    setFailed(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error)
+      setFailed(error.message);
+    else
+      setFailed(String(error));
   }
 })();

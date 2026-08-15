@@ -28,14 +28,14 @@
     "configs"
   ],
   "dependencies": {
-    "@actions/core": "^3.0.0"
+    "@actions/core": "^3.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^24.13.3",
-    "@types/ramda": "^0.31.1",
+    "@types/ramda": "^0.32.0",
     "just-has": "^2.3.0",
     "just-is-empty": "^3.4.1",
     "ramda": "^0.32.0",
@@ -52,5 +52,12 @@
     "@actions/http-client": {
       "undici": "^7.29.0"
     }
+  },
+  "optionalDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "globals": "^17.11.0",
+    "jiti": "^2.7.0",
+    "typescript-eslint": "^8.67.0"
   }
 }
