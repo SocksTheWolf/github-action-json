@@ -39583,7 +39583,7 @@ const tryParseObject = (data, { defaultValue = {} } = {}) => {
         const parsed = JSON.parse(data);
         return parsed || defaultValue;
     }
-    catch (error) {
+    catch (_error) {
         return defaultValue;
     }
 };
@@ -39646,7 +39646,10 @@ const tryParseObject = (data, { defaultValue = {} } = {}) => {
         });
     }
     catch (error) {
-        setFailed(error.message);
+        if (error instanceof Error)
+            setFailed(error.message);
+        else
+            setFailed(String(error));
     }
 })();
 //# sourceMappingURL=index.js.map
