@@ -51,9 +51,6 @@
     },
     "@actions/http-client": {
       "undici": "^7.29.0"
-    },
-    "miniflare": {
-      "sharp": "^0.35.4"
     }
   },
   "optionalDependencies": {
