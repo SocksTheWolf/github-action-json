@@ -47,17 +47,20 @@
   },
   "overrides": {
     "@actions/github": {
-      "undici": "^7.29.0"
+      "undici": "^7.29.1"
     },
     "@actions/http-client": {
-      "undici": "^7.29.0"
+      "undici": "^7.29.1"
+    },
+    "miniflare": {
+      "sharp": "0.35.5"
     }
   },
   "optionalDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.11.0",
+    "eslint": "^10.12.0",
     "globals": "^17.13.0",
     "jiti": "^2.7.0",
-    "typescript-eslint": "^8.71.0"
+    "typescript-eslint": "^8.71.1"
   }
 }
